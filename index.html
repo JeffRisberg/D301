@@ -2,49 +2,55 @@
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-  <title>D3 01</title>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <script type="text/javascript" src="js/d3.js"></script>
-  <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+    <title>D3 01</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="js/d3.js"></script>
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 </head>
 <body>
 
 <style type='text/css'>
-.chart {
-  margin-left: 42px;
-  font: 10px sans-serif;  
-}
+    .chart {
+        margin-left: 42px;
+        font: 10px sans-serif;
+    }
 
-.chart div {
-  border: 1px solid black;
-  text-align: right;
-  padding: 3px;
-  margin: 2px;
-  color: white;
-}
+    .chart div {
+        border: 1px solid black;
+        text-align: right;
+        padding: 3px;
+        margin: 2px;
+        color: white;
+    }
 </style>
 
-<script type="text/javascript">   
-  var chart = d3.select("body")
-    .append("div")
-    .attr("class", "chart");
-  
-  d3.json("players.json", function(error, playerList) {
-     console.log(playerList);
-     
-     // sort the playerList
-     playerList.sort(function(a,b) { return a.score - b.score } );
+<script type="text/javascript">
+    var chart = d3.select("body")
+        .append("div")
+        .attr("class", "chart");
 
-     chart.selectAll("div").
-       data(playerList)
-       .enter().append("div")
-       .style("width", function(d) { return d.score * 10 + "px"; })
-       .text(function(d) { return d.name; });
-     
-     d3.selectAll("body div.chart div").style("background-color", function(d, i) {
-         return i % 2 ? "red" : "blue";
-      });
-  });
+    d3.json("players.json")
+        .then(function (playerList) {
+            console.log(playerList);
+
+            // sort the playerList
+            playerList.sort(function (a, b) {
+                return a.score - b.score
+            });
+
+            chart.selectAll("div").data(playerList)
+                .enter().append("div")
+                .style("width", function (d) {
+                    return d.score * 10 + "px";
+                })
+                .text(function (d) {
+                    return d.name;
+                });
+
+            d3.selectAll("body div.chart div").style("background-color", function (d, i) {
+                return i % 2 ? "red" : "blue";
+            });
+        });
 </script>
 </body>
 </html>
